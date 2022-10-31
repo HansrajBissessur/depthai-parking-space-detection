@@ -1,3 +1,5 @@
-opencv-python==4.6.0.66; platform_machine != "aarch64"
 blobconverter==1.2.6
 depthai==2.18.0.0
+numpy~=1.23.4
+scikit-learn
+opencv-python~=4.6.0.66
