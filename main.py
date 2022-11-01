@@ -15,13 +15,15 @@ cam_rgb.setPreviewSize(300, 300)  # 300x300 will be the preview frame size, avai
 cam_rgb.setInterleaved(False)
 
 # Next, we want a neural network that will produce the detections
-detection_nn = pipeline.createMobileNetDetectionNetwork()
+detection_nn = pipeline.createNeuralNetwork()
 # Blob is the Neural Network file, compiled for MyriadX. It contains both the definition and weights of the model
 # We're using a blobconverter tool to retreive the MobileNetSSD blob automatically from OpenVINO Model Zoo
-blobconverter.from_caffe(proto="/.models/mAlexNet_on_CNRPARK.prototxt",
-                         model="/.model/mAlexNet_on_CNRPARK_942.caffemodel", data_type="FP16", shaves=6)
+detection_nn.setBlobPath(blobconverter.from_caffe(proto="./models/mAlexNet_on_CNRPARK.prototxt",
+                                                  model="./models/mAlexNet_on_CNRPARK_942.caffemodel", data_type="FP16",
+                                                  optimizer_params=
+                                                  ["--mean_values=[127.5,127.5,127.5]", "--scale_values=[255,255,255]"]
+                                                  , shaves=6))
 # Next, we filter out the detections that are below a confidence threshold. Confidence can be anywhere between <0..1>
-detection_nn.setConfidenceThreshold(0.5)
 # Next, we link the camera 'preview' output to the neural network detection input, so that it can produce detections
 cam_rgb.preview.link(detection_nn.input)
 

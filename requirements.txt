@@ -3,3 +3,4 @@ depthai==2.18.0.0
 numpy~=1.23.4
 scikit-learn
 opencv-python~=4.6.0.66
+roboflowoak
